@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Модерирование{% endblock %}
+{% block nav %}
+<li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'create_article' %}">Создать статью</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{% url 'update' article.pk %}">Редактировать</a>
+  </li><li class="nav-item">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteArticleModal">Удалить</button>
+  </li>
+
+{% endblock %}
+{% block content %}
+  <h1 style="display: inline-block;">{{ article.title }}</h1>
+  <br>
+  <h3>{{article.status}}</h3>
+  <br>
+  <h3>{{ article.content }}</h3>
+  <br>
+  <p>{{ article.author }}</p>
+  <p style="display: inline-block;">{{ article.created_at|date:'Y-m-d G:i' }}</p>
+  <br>
+  <a href="{% url 'index' %}">На главную</a>
+  <div class="modal fade" id="deleteArticleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteArticleModal">Удаление статьи</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Вы уверены?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет, не удалять</button>
+          <form action="{% url 'delete' article.pk %}" method="post">
+            {% csrf_token %}
+          <button type="submit" class="btn btn-primary">Да, удалить</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+  
+<a class="nav-link active" aria-current="page" href="{% url 'delete' article.pk %}">Удалить</a>
